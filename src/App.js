@@ -1,23 +1,26 @@
-import logo from './logo.svg';
-import './App.css';
+import {useState, useEffect} from "react";
+
+function Hello(){
+  console.log("Hello rendered")
+  useEffect(() => {
+    console.log("Created!! :D");
+    return () => {
+      console.log("Breaking... :(");
+    };
+  }, []);
+  return <div>
+    <h1>Hello!</h1>
+  </div>
+};
 
 function App() {
+  console.log("App rendered")
+  const [shHi, setShHi] = useState(false);
+  const onClick = () => setShHi(prev=>!prev);
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <button onClick={onClick}>{shHi?"Hide":"Show"}</button>
+      {shHi?<Hello />:null}
     </div>
   );
 }
