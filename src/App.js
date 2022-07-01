@@ -34,7 +34,7 @@ function App() {
   useEffect(()=>console.log(todos), [todos]);
   return (
     <div className="App">
-      <h1><strong>My To Do List</strong><span>{todos.length===0?null:todos.length}</span></h1>
+      <h1><strong>My To Do List</strong><span>{todos.length===0?null:"  "+todos.length}</span></h1>
       <form className="input" onSubmit={onAdd}>
         <input type="text" value={todo} placeholder="What's Next?" onChange={event=>setTodo(event.target.value)} />
         <button type="submit">Add</button>

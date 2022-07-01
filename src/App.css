@@ -1,4 +1,4 @@
-.App {
+/* .App {
   text-align: center;
   width: 30vw;
   margin: 0 auto;
@@ -36,8 +36,7 @@
   top: 10px;
   text-shadow: 3px 2px 1px rgba(0, 0, 0, 0.2);
 }
-.App .input {
-}
+
 .App .input > * {
   all: unset;
   width: 300px;
@@ -84,7 +83,6 @@
   bottom: 0;
 }
 .App ol li form {
-  /* float: right; */
   margin-left:190px;
 }
 .App ol li form button {
@@ -106,4 +104,4 @@
 .App ol li form button:hover {
   box-shadow: 2px 3px 2px rgba(0, 0, 0, 0.2);
   cursor: pointer;
-}
+} */
