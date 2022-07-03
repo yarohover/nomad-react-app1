@@ -4,42 +4,52 @@ import "./App.css"
 function App() {
   const [todo, setTodo] = useState("");
   const [todos, setTodos] = useState([]);
-  
-  const onAdd = (event)=>{
+  const [todoList, setTodoList] = useState([]);
+
+  function onAdd(event){
     event.preventDefault();
-    if (todo === ''){
-      return;
-    };
-    let newId = 1;
-    if (todos.length !== 0){
-      newId = todos[0].id + 1;
-    }
-    const newTodo = {id:newId, content:todo};
-    setTodos(prev=>[newTodo, ...prev]);
+    if(todo === ""){return}
+    console.log("Added todo:", todo);
+    const newTodo = [...todos, mkNewObj(todo)];
+    setTodos(newTodo);
     setTodo("");
   };
-  const todoList = todos.map((elmt,idx)=>{
+
+  function mkNewObj(content){
+    let newId = 1;
+    if (todos.length !== 0){
+      newId = todos[todos.length -1].id + 1;
+    }
+    return {id:newId, content:content}
+  };
+
+  const onDone = (event, id, prevArr)=>{
+    event.preventDefault();
+    console.log("done!");
     const newArr = [];
-    todos.forEach(element => {
-      if(element.id !== elmt.id){
+    prevArr.forEach(element => {
+      if(element.id !== id){
         newArr.push(element);
       }
     });
-    return <li key={idx}>{elmt.content}<form style={{display:"inline-block", paddingLeft:"10px"}} onSubmit={event=>{
-      event.preventDefault();
-      setTodos(newArr);
-    }}><button type="submit">Done</button></form></li>;
-  });
+    setTodos(newArr);
+  };
 
-  useEffect(()=>console.log(todos), [todos]);
+  useEffect(()=>{
+    setTodoList(todos.map((elmt, idx)=>{
+      return <li key={idx}><span>{elmt.content}</span><form onSubmit={event=>onDone(event, elmt.id, todos)}><button type="submit">Done</button></form></li>
+    }));
+    console.log("now to do list: ", todos);
+  }, [todos]);
+   
   return (
     <div className="App">
-      <h1><strong>My To Do List</strong><span>{todos.length===0?null:"  "+todos.length}</span></h1>
-      <form className="input" onSubmit={onAdd}>
-        <input type="text" value={todo} placeholder="What's Next?" onChange={event=>setTodo(event.target.value)} />
+      <h1>My To Do List : {todos.length}</h1>
+      <form onSubmit={onAdd}>
+        <input type="text" placeholder="What's Next?" value={todo} onChange={event=>setTodo(event.target.value)} />
         <button type="submit">Add</button>
       </form>
-      <ol>{todoList}</ol>
+      <ol className="show">{todoList}</ol>
     </div>
   );
 }
