@@ -2,54 +2,38 @@ import {useState, useEffect} from "react";
 import "./App.css"
 
 function App() {
-  const [todo, setTodo] = useState("");
-  const [todos, setTodos] = useState([]);
-  const [todoList, setTodoList] = useState([]);
+  const [value, setValue] = useState('');
+  const [list, setList] = useState([]);
 
-  function onAdd(event){
+  const onAdd = event=>{
     event.preventDefault();
-    if(todo === ""){return}
-    console.log("Added todo:", todo);
-    const newTodo = [...todos, mkNewObj(todo)];
-    setTodos(newTodo);
-    setTodo("");
+    if(value === ''){return};
+    const newlist = [value, ...list];
+    setList(newlist);
+    setValue('');
   };
 
-  function mkNewObj(content){
-    let newId = 1;
-    if (todos.length !== 0){
-      newId = todos[todos.length -1].id + 1;
-    }
-    return {id:newId, content:content}
-  };
-
-  const onDone = (event, id, prevArr)=>{
-    event.preventDefault();
-    console.log("done!");
-    const newArr = [];
-    prevArr.forEach(element => {
-      if(element.id !== id){
-        newArr.push(element);
-      }
-    });
-    setTodos(newArr);
-  };
-
-  useEffect(()=>{
-    setTodoList(todos.map((elmt, idx)=>{
-      return <li key={idx}><span>{elmt.content}</span><form onSubmit={event=>onDone(event, elmt.id, todos)}><button type="submit">Done</button></form></li>
-    }));
-    console.log("now to do list: ", todos);
-  }, [todos]);
-   
   return (
     <div className="App">
-      <h1>My To Do List : {todos.length}</h1>
+      <h1>to do list</h1>
       <form onSubmit={onAdd}>
-        <input type="text" placeholder="What's Next?" value={todo} onChange={event=>setTodo(event.target.value)} />
-        <button type="submit">Add</button>
+        <input type="text" value={value} placeholder="to do" onChange={event=>setValue(event.target.value)} />
+        <button type="submit">add</button>
       </form>
-      <ol className="show">{todoList}</ol>
+      <ol>
+        {list.map((elmt,idx)=><li key={idx}>{elmt}<form onSubmit={(event)=>{
+          event.preventDefault();
+          let newlist = [];
+          console.log('elmt',elmt);
+          list.forEach(element => {
+            if(element+'' !== elmt+""){
+              newlist.push(element);
+              console.log(newlist);
+            }
+          });
+          setList(newlist);
+        }}><button type="submit">done</button></form></li>)}
+      </ol>
     </div>
   );
 }
