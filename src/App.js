@@ -12,12 +12,12 @@ function App() {
   return (
     <div className="App">
       <h1>The Coins</h1>
-      <select>{load?'Loading...':data.map((elmt,idx)=>{
+      <div>{load?'Loading...':<select>{data.map((elmt,idx)=>{
         return <option key={idx}>
                 {elmt.name}: {elmt.symbol}, ($ {elmt.quotes.USD.price.toFixed(2).toString()
                 .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",")})
-               </option>})}
-      </select>
+               </option>})}</select>}
+      </div>
     </div>
   );
 }
