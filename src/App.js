@@ -1,23 +1,27 @@
 import {useState, useEffect} from "react";
 import "./App.css"
 
+// 'https://yts.torrentbay.to/api/v2/list_movies.json'
+
 function App() {
-  const [data, setData] = useState([]);
-  const [load, setLoad] = useState(true);
+  const [movies, setMovies] = useState([]);
+  async function getMovs(){
+    const json = await (
+      await fetch('https://yts.torrentbay.to/api/v2/list_movies.json', {
+        mode: 'cors',
+        headers: {
+          'Access-Control-Allow-Origin':'*'
+        }})
+    ).json();
+    setMovies(json);
+  };
   useEffect(()=>{
-    fetch('https://api.coinpaprika.com/v1/tickers')
-    .then(response=>response.json())
-    .then(json=>{setData(json);setLoad(false)});
-  }, [])
+    getMovs();
+  }, []);
+  getMovs();
   return (
     <div className="App">
-      <h1>The Coins</h1>
-      <div>{load?'Loading...':<select>{data.map((elmt,idx)=>{
-        return <option key={idx}>
-                {elmt.name}: {elmt.symbol}, ($ {elmt.quotes.USD.price.toFixed(2).toString()
-                .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",")})
-               </option>})}</select>}
-      </div>
+      {movies}
     </div>
   );
 }
