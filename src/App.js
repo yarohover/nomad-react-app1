@@ -22,7 +22,7 @@ function App() {
   },[])
   return (
     <div className="App">
-      <BrowserRouter>
+      <BrowserRouter basename={process.env.PUBLIC_URL}>
         <Routes>
           <Route path="/" element={movies}></Route>
           <Route path="/:id" element={<Movie movies={movieData}></Movie>}></Route>
